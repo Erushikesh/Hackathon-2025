@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRU Alumni Connect - Alumni Directory</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* EXACT index.html cursor styles */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.3s ease-out;
+            z-index: 999;
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.1s ease-out;
+            z-index: 999;
+        }
+
+        /* Rest of index.html styles */
+        :root {
+            --primary: #2A2F4F;
+            --secondary: #917FB3;
+            --accent: #E5BEEC;
+            --text: #FDE2F3;
+            --gradient: linear-gradient(135deg, #2A2F4F 0%, #917FB3 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(42, 47, 79, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .alumni-hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+            background: linear-gradient(rgba(42,47,79,0.9), rgba(42,47,79,0.9)),
+                        url('alumni-bg.jpg') center/cover;
+        }
+
+        .directory-header {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .directory-title {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #E5BEEC, #917FB3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textFloat 3s ease-in-out infinite;
+        }
+
+        .search-container {
+            max-width: 800px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 1.2rem 2rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid transparent;
+            border-radius: 50px;
+            color: var(--text);
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .search-input:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 25px rgba(229, 190, 236, 0.2);
+        }
+
+        .alumni-grid {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .alumni-card {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            transform: translateY(50px);
+            opacity: 0;
+        }
+
+        .alumni-card.visible {
+            transform: translateY(0);
+            opacity: 1;
+        }
+
+        .alumni-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255,255,255,0.15);
+        }
+
+        .alumni-photo {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            margin: 0 auto 1.5rem;
+            object-fit: cover;
+            border: 3px solid var(--accent);
+            transition: transform 0.3s;
+        }
+
+        .alumni-card:hover .alumni-photo {
+            transform: scale(1.1);
+        }
+
+        .alumni-name {
+            font-size: 1.3rem;
+            text-align: center;
+            margin-bottom: 0.5rem;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: white;
+        }
+
+        .alumni-social {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-top: 1.5rem;
+        }
+
+        .social-link {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .social-link:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background: var(--primary);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(229, 190, 236, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .directory-title {
+                font-size: 2.5rem;
+            }
+
+            .alumni-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+        <header>
+        <nav>
+            <div class="logo">SRU Alumni Connect</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="alumni.html" class="active">Alumni</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="donate.html">Donate</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+        <section class="alumni-hero">
+        <div class="directory-header">
+            <h1 class="directory-title">Alumni Directory</h1>
+            <div class="search-container">
+                <input type="text" 
+                       class="search-input" 
+                       placeholder="Search alumni by name, company, or skills">
+            </div>
+        </div>
+        <div class="particle" style="width: 10px; height: 10px; left: 20%;"></div>
+        <div class="particle" style="width: 15px; height: 15px; left: 70%;"></div>
+    </section>
+
+    <div class="alumni-grid">
+        <div class="alumni-card animate-on-scroll">
+        <img src="Rus.jpg" alt="Rushikesh Eaga" class="alumni-photo">
+        <h3 class="alumni-name">Rushikesh Eaga</h3>
+        <div class="alumni-details">
+            <p>B.Tech Computer Science</p>
+            <p>Class of 2018</p>
+            <p>Senior Developer @RockstarStudios</p>
+        </div>
+        <div class="alumni-social">
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+        </div>
+    </div>
+
+        <div class="alumni-card animate-on-scroll">
+        <img src="Rus2.jpeg" alt="Anmol Daftary" class="alumni-photo">
+        <h3 class="alumni-name">Anmol Daftary</h3>
+        <div class="alumni-details">
+            <p>B.Tech Computer Science</p>
+            <p>Class of 2019</p>
+            <p>Manager @SuckerPunchStudios</p>
+        </div>
+        <div class="alumni-social">
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+        </div>
+    </div>
+
+        <div class="alumni-card animate-on-scroll">
+        <img src="Rus3.jpeg" alt="Rachel Williams" class="alumni-photo">
+        <h3 class="alumni-name">Rachel Williams</h3>
+        <div class="alumni-details">
+            <p>B.Tech Computer Science</p>
+            <p>Class of 2020</p>
+            <p>Assistant Developer @Microsoft</p>
+        </div>
+        <div class="alumni-social">
+            <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
+            <a href="#" class="social-link"><i class="fab fa-twitter"></i></a>
+            <a href="#" class="social-link"><i class="fas fa-envelope"></i></a>
+        </div>
+    </div>
+</div>
+
+
+    
+
+    <script>
+        // EXACT cursor logic from index.html
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .social-link, .search-input').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(2)';
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+            });
+        });
+
+        // Scroll animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if(entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.alumni-card').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Particle system
+        function createParticles() {
+            const container = document.querySelector('.alumni-hero');
+            for(let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.cssText = `
+                    width: ${Math.random() * 10 + 5}px;
+                    height: ${Math.random() * 10 + 5}px;
+                    left: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 15}s;
+                `;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+    </script>
+</body>
+</html>

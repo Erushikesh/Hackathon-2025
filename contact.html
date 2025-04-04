@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SRU Alumni Connect - Contact</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* EXACT index.html styles */
+        :root {
+            --primary: #2A2F4F;
+            --secondary: #917FB3;
+            --accent: #E5BEEC;
+            --text: #FDE2F3;
+            --gradient: linear-gradient(135deg, #2A2F4F 0%, #917FB3 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Identical cursor styles */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.3s ease-out;
+            z-index: 999;
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.1s ease-out;
+            z-index: 999;
+        }
+
+        /* 1:1 Header from index.html */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(42, 47, 79, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Mirror index.html hero section */
+        .contact-hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+            background: linear-gradient(rgba(42,47,79,0.9), rgba(42,47,79,0.9)),
+                        url('contact-bg.jpg') center/cover;
+        }
+
+        .contact-header {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .contact-title {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #E5BEEC, #917FB3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textFloat 3s ease-in-out infinite;
+        }
+
+        /* Matching contact card from register page */
+        .contact-container {
+            max-width: 1200px;
+            margin: -100px auto 5rem;
+            padding: 0 2rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .contact-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: cardEnter 1s 0.3s forwards;
+        }
+
+        .contact-info {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+        }
+
+        .contact-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .input-field {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            color: var(--text);
+            transition: all 0.3s;
+        }
+
+        .input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(229, 190, 236, 0.2);
+        }
+
+        .submit-btn {
+            padding: 1.2rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 50px;
+            color: var(--text);
+            font-weight: 700;
+            transition: transform 0.3s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .info-item {
+            margin-bottom: 2rem;
+            padding: 1.5rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            transition: all 0.3s;
+        }
+
+        .info-item:hover {
+            transform: translateY(-5px);
+        }
+
+        footer {
+            background: var(--primary);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes cardEnter {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(229, 190, 236, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .contact-title {
+                font-size: 2.5rem;
+            }
+
+            .contact-container {
+                grid-template-columns: 1fr;
+                margin: -50px auto 3rem;
+            }
+
+            .contact-card, .contact-info {
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+        <header>
+        <nav>
+            <div class="logo">SRU Alumni Connect</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="alumni.html">Alumni</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="donate.html">Donate</a></li>
+                <li><a href="contact.html" class="active">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+        <section class="contact-hero">
+        <div class="contact-header">
+            <h1 class="contact-title">Get In Touch</h1>
+        </div>
+        <div class="particle" style="width: 10px; height: 10px; left: 20%;"></div>
+        <div class="particle" style="width: 15px; height: 15px; left: 70%;"></div>
+    </section>
+
+        <div class="contact-container">
+                <div class="contact-card">
+            <form class="contact-form">
+                <div class="input-group">
+                    <label>Full Name</label>
+                    <input type="text" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label>Email Address</label>
+                    <input type="email" class="input-field" required>
+                </div>
+                <div class="input-group">
+                    <label>Message</label>
+                    <textarea class="input-field" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Send Message</button>
+            </form>
+        </div>
+
+                <div class="contact-info">
+            <div class="info-item">
+                <h3><i class="fas fa-map-marker-alt"></i> Address</h3>
+                <p>SR University<br>
+                   Alumni Association Office<br>
+                   Ananthsagar, Hasanparthy - 506371</p>
+            </div>
+            <div class="info-item">
+                <h3><i class="fas fa-phone"></i> Phone</h3>
+                <p>7993027037<br>
+                   9348107119</p>
+            </div>
+            <div class="info-item">
+                <h3><i class="fas fa-envelope"></i> Email</h3>
+                <p>alumni@sru.edu.in<br>
+                   support@srualumni.org</p>
+            </div>
+        </div>
+    </div>
+
+        <footer>
+        <div class="footer-content">
+            <p>SR University Alumni Association</p>
+            <p>Contact: alumni@sru.edu.in | Phone: 7993027037</p>
+            <p>&copy; 2025 SRU Alumni Connect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // EXACT JavaScript from index.html
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .input-field, .info-item').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(2)';
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+            });
+        });
+
+        // Particle system
+        function createParticles() {
+            const container = document.querySelector('.contact-hero');
+            for(let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.cssText = `
+                    width: ${Math.random() * 10 + 5}px;
+                    height: ${Math.random() * 10 + 5}px;
+                    left: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 15}s;
+                `;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Form submission
+        document.querySelector('.contact-form').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Your message has been sent successfully!');
+        });
+    </script>
+</body>
+</html>

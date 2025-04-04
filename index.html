@@ -1,0 +1,444 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Alumni Connect - Home</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2A2F4F;
+            --secondary: #917FB3;
+            --accent: #E5BEEC;
+            --text: #FDE2F3;
+            --gradient: linear-gradient(135deg, #2A2F4F 0%, #917FB3 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Custom Cursor */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.3s ease-out;
+            z-index: 999;
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.1s ease-out;
+            z-index: 999;
+        }
+
+        /* Header Styles */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 100;
+            background: rgba(42, 47, 79, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: white;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Hero Section */
+        .hero-section {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+        }
+
+        .hero-content {
+            text-align: center;
+            z-index: 1;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #E5BEEC, #917FB3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textFloat 3s ease-in-out infinite;
+        }
+
+        .hero-subtitle {
+            font-size: 1.5rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .hero-cta {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .glow-btn {
+            padding: 1rem 2rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 50px;
+            color: white;
+            font-weight: 600;
+            transition: transform 0.3s;
+        }
+
+        /* Features Section */
+        .features-section {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        /* Success Stories */
+        .success-section {
+            padding: 5rem 2rem;
+        }
+
+        .stories-carousel {
+            display: flex;
+            gap: 2rem;
+            overflow-x: auto;
+            padding: 2rem 0;
+        }
+
+        .story-card {
+            min-width: 300px;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 20px;
+            text-align: center;
+        }
+
+        /* Events Section */
+        .events-section {
+            padding: 5rem 2rem;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .events-timeline {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .event-card {
+            display: flex;
+            gap: 2rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            margin-bottom: 1rem;
+            border-radius: 15px;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--primary);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        /* Animations */
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                position: fixed;
+                top: 70px;
+                right: -100%;
+                flex-direction: column;
+                background: var(--primary);
+                width: 100%;
+                text-align: center;
+                transition: 0.3s;
+                padding: 2rem 0;
+            }
+
+            .nav-links.active {
+                right: 0;
+            }
+
+            .hero-title {
+                font-size: 2.5rem;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+        <header>
+        <nav>
+            <div class="logo">Alumni Connect</div>
+            <ul class="nav-links">
+                <li><img src="SRU.png" alt="Description" style="float: left; width: 100px; height: auto;"></li>
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="alumni.html">Alumni</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="donate.html">Donate</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="logout.html">Logout</a></li>
+            </ul>
+            <div class="hamburger">
+                <div class="line"></div>
+                <div class="line"></div>
+                <div class="line"></div>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+                <section class="hero-section">
+            <div class="hero-content">
+                <h1 class="hero-title">Reconnect. Network. Grow Together.</h1>
+                <p class="hero-subtitle">Join our global community of 25,000+ alumni</p>
+                <div class="hero-cta">
+                    <button class="glow-btn" onclick="location.href='register.html'">Join Now</button>
+                    <button class="glow-btn" onclick="location.href='alumni.html'">Explore Alumni</button>
+                </div>
+            </div>
+        </section>
+
+                <section class="features-section">
+            <h2 class="section-title">Why Join Alumni Connect?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <i class="fas fa-users fa-3x"></i>
+                    <h3>Global Network</h3>
+                    <p>Connect with alumni across 50+ countries</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-briefcase fa-3x"></i>
+                    <h3>Career Support</h3>
+                    <p>Access exclusive job opportunities and mentorship</p>
+                </div>
+                <div class="feature-card">
+                    <i class="fas fa-calendar-alt fa-3x"></i>
+                    <h3>Events & Workshops</h3>
+                    <p>Attend professional development events worldwide</p>
+                </div>
+            </div>
+        </section>
+
+                <section class="success-section">
+            <h2 class="section-title">Alumni Success Stories</h2>
+            <div class="stories-carousel">
+                <div class="story-card">
+                    <img src="1.jpeg" alt="Alumni" style="width: 100px; border-radius: 50%;">
+                    <h4>Rushikesh Eaga</h4>
+                    <p>Class of 2019</p>
+                    <p>"The alumni network helped me launch my startup!"</p>
+                </div>
+                <div class="story-card">
+                    <img src="2.jpeg" alt="Alumni" style="width: 100px; border-radius: 50%;">
+                    <h4>Anmol Daftary</h4>
+                    <p>Class of 2015</p>
+                    <p>"The alumni network helped me to reconnect with my friends"</p>
+                </div>
+                <div class="story-card">
+                    <img src="3.jpeg" alt="Alumni" style="width: 100px; border-radius: 50%;">
+                    <h4>Deanne Carter</h4>
+                    <p>Class of 2013</p>
+                    <p>"Helped me grow my client network thanks to this website for huge support!"</p>
+                </div>
+                <div class="story-card">
+                    <img src="4.jpeg" alt="Alumni" style="width: 100px; border-radius: 50%;">
+                    <h4>Rohan Karamchandani</h4>
+                    <p>Class of 2017</p>
+                    <p>"Grateful to this platform!"</p>
+                </div>
+                            </div>
+        </section>
+        
+        
+
+                <section class="events-section">
+            <h2 class="section-title">Upcoming Events</h2>
+            <div class="events-timeline">
+                <div class="event-card">
+                    <div class="event-date">
+                        <span>15</span>
+                        <span>SEP</span>
+                    </div>
+                    <div class="event-info">
+                        <h4>Annual Alumni Meet</h4>
+                        <p>Join us for the grand reunion at SRIX</p>
+                    </div>
+                </div>
+                            </div>
+        </section>
+    </main>
+
+        <footer>
+        <div class="footer-content">
+            <p>Contact: 2303A51634@sru.edu.in | Phone: 7993027037</p>
+            <p>&copy; 2025 Alumni Connect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // Custom Cursor
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        });
+
+        // Hover Effects
+        document.querySelectorAll('a, button').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(2)';
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+            });
+        });
+
+        // Mobile Menu
+        const hamburger = document.querySelector('.hamburger');
+        const navLinks = document.querySelector('.nav-links');
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+            hamburger.classList.toggle('toggle');
+        });
+
+        // Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('visible');
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.feature-card, .story-card, .event-card').forEach(element => {
+            observer.observe(element);
+        });
+    </script>
+</body>
+</html>

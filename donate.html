@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GEC Alumni Connect - Donate</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        /* EXACT index.html styles */
+        :root {
+            --primary: #2A2F4F;
+            --secondary: #917FB3;
+            --accent: #E5BEEC;
+            --text: #FDE2F3;
+            --gradient: linear-gradient(135deg, #2A2F4F 0%, #917FB3 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: none;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--primary);
+            color: var(--text);
+            overflow-x: hidden;
+        }
+
+        /* Identical cursor styles */
+        .cursor {
+            width: 20px;
+            height: 20px;
+            border: 2px solid var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.3s ease-out;
+            z-index: 999;
+        }
+
+        .cursor-follower {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            position: fixed;
+            pointer-events: none;
+            transition: all 0.1s ease-out;
+            z-index: 999;
+        }
+
+        /* 1:1 Header from index.html */
+        header {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            background: rgba(42, 47, 79, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text);
+            text-decoration: none;
+            position: relative;
+            padding: 0.5rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* Mirror index.html hero section */
+        .donate-hero {
+            height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+            padding-top: 80px;
+            background: linear-gradient(rgba(42,47,79,0.9), rgba(42,47,79,0.9)),
+                        url('donate-bg.jpg') center/cover;
+        }
+
+        .donate-header {
+            text-align: center;
+            z-index: 1;
+        }
+
+        .donate-title {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(45deg, #E5BEEC, #917FB3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textFloat 3s ease-in-out infinite;
+        }
+
+        /* Matching donation card from register page */
+        .donate-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            padding: 3rem;
+            border-radius: 30px;
+            max-width: 600px;
+            margin: -100px auto 5rem;
+            position: relative;
+            z-index: 1;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transform: translateY(50px);
+            opacity: 0;
+            animation: cardEnter 1s 0.3s forwards;
+        }
+
+        .donate-options {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .amount-btn {
+            padding: 1rem;
+            background: rgba(255,255,255,0.1);
+            border: 2px solid var(--accent);
+            border-radius: 15px;
+            color: var(--text);
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .amount-btn:hover {
+            background: var(--accent);
+            transform: translateY(-3px);
+        }
+
+        .custom-amount {
+            width: 100%;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid transparent;
+            border-radius: 15px;
+            color: var(--text);
+            margin: 1rem 0;
+            transition: all 0.3s;
+        }
+
+        .custom-amount:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(229, 190, 236, 0.2);
+        }
+
+        .payment-methods {
+            margin: 2rem 0;
+        }
+
+        .payment-toggle {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .payment-option {
+            flex: 1;
+            padding: 1rem;
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .payment-option.active {
+            background: var(--accent);
+            box-shadow: 0 5px 15px rgba(229, 190, 236, 0.2);
+        }
+
+        .donate-btn {
+            width: 100%;
+            padding: 1.2rem;
+            background: var(--gradient);
+            border: none;
+            border-radius: 50px;
+            color: var(--text);
+            font-weight: 700;
+            transition: transform 0.3s;
+        }
+
+        .donate-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        footer {
+            background: var(--primary);
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        @keyframes logoFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes textFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes cardEnter {
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .particle {
+            position: absolute;
+            background: rgba(229, 190, 236, 0.1);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) rotate(0deg); }
+            100% { transform: translateY(-100vh) rotate(360deg); }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .donate-title {
+                font-size: 2.5rem;
+            }
+
+            .donate-card {
+                padding: 2rem;
+                margin: -50px auto 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+        <div class="cursor"></div>
+    <div class="cursor-follower"></div>
+
+        <header>
+        <nav>
+            <div class="logo">GEC Alumni Connect</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="login.html">Login</a></li>
+                <li><a href="register.html">Register</a></li>
+                <li><a href="alumni.html">Alumni</a></li>
+                <li><a href="events.html">Events</a></li>
+                <li><a href="gallery.html">Gallery</a></li>
+                <li><a href="donate.html" class="active">Donate</a></li>
+                <li><a href="contact.html">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+        <section class="donate-hero">
+        <div class="donate-header">
+            <h1 class="donate-title">Support Your Alma Mater</h1>
+        </div>
+        <div class="particle" style="width: 10px; height: 10px; left: 20%;"></div>
+        <div class="particle" style="width: 15px; height: 15px; left: 70%;"></div>
+    </section>
+
+        <div class="donate-card">
+        <div class="donate-options">
+            <button class="amount-btn">₹50</button>
+            <button class="amount-btn">₹100</button>
+            <button class="amount-btn">₹250</button>
+            <button class="amount-btn">₹500</button>
+        </div>
+
+        <input type="number" 
+               class="custom-amount" 
+               placeholder="Enter custom amount">
+
+        <div class="payment-methods">
+            <div class="payment-toggle">
+                <div class="payment-option active">Credit Card</div>
+                <div class="payment-option">PayPal</div>
+            </div>
+
+            <form id="donationForm">
+                <input type="text" 
+                       class="input-field" 
+                       placeholder="Card Number" 
+                       required>
+
+                <div class="form-row">
+                    <input type="text" 
+                           class="input-field" 
+                           placeholder="MM/YY" 
+                           required>
+                    <input type="text" 
+                           class="input-field" 
+                           placeholder="CVC" 
+                           required>
+                </div>
+
+                <button type="submit" class="donate-btn">Make Donation</button>
+            </form>
+        </div>
+    </div>
+
+        <footer>
+        <div class="footer-content">
+            <p>Government Engineering College Alumni Association</p>
+            <p>Contact: alumni@sru.edu.in | Phone: +91 98765 43210</p>
+            <p>&copy; 2025 SRU Alumni Connect. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // EXACT JavaScript from index.html
+        const cursor = document.querySelector('.cursor');
+        const cursorFollower = document.querySelector('.cursor-follower');
+
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+            cursorFollower.style.left = e.clientX + 'px';
+            cursorFollower.style.top = e.clientY + 'px';
+        });
+
+        document.querySelectorAll('a, button, .payment-option').forEach(element => {
+            element.addEventListener('mouseenter', () => {
+                cursor.style.transform = 'scale(1.5)';
+                cursorFollower.style.transform = 'scale(2)';
+            });
+            element.addEventListener('mouseleave', () => {
+                cursor.style.transform = 'scale(1)';
+                cursorFollower.style.transform = 'scale(1)';
+            });
+        });
+
+        // Payment toggle
+        document.querySelectorAll('.payment-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('active'));
+                option.classList.add('active');
+            });
+        });
+
+        // Particle system
+        function createParticles() {
+            const container = document.querySelector('.donate-hero');
+            for(let i = 0; i < 15; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.cssText = `
+                    width: ${Math.random() * 10 + 5}px;
+                    height: ${Math.random() * 10 + 5}px;
+                    left: ${Math.random() * 100}%;
+                    animation-delay: ${Math.random() * 15}s;
+                `;
+                container.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Form validation
+        document.getElementById('donationForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your donation!');
+        });
+    </script>
+</body>
+</html>
