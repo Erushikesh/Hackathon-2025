@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>GEC Alumni Connect - Donate</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
+    <link rel="stylesheet" href="https:    <style>
         /* EXACT index.html styles */
         :root {
             --primary: #2A2F4F;
@@ -398,15 +397,14 @@
 
         <footer>
         <div class="footer-content">
-            <p>Government Engineering College Alumni Association</p>
-            <p>Contact: alumni@sru.edu.in | Phone: +91 98765 43210</p>
+            <p>SRU Alumni Association</p>
+            <p>Contact: alumni@sru.edu.in | Phone: 7993027037</p>
             <p>&copy; 2025 SRU Alumni Connect. All rights reserved.</p>
         </div>
     </footer>
 
     <script>
-        // EXACT JavaScript from index.html
-        const cursor = document.querySelector('.cursor');
+                const cursor = document.querySelector('.cursor');
         const cursorFollower = document.querySelector('.cursor-follower');
 
         document.addEventListener('mousemove', (e) => {
@@ -427,16 +425,14 @@
             });
         });
 
-        // Payment toggle
-        document.querySelectorAll('.payment-option').forEach(option => {
+                document.querySelectorAll('.payment-option').forEach(option => {
             option.addEventListener('click', () => {
                 document.querySelectorAll('.payment-option').forEach(o => o.classList.remove('active'));
                 option.classList.add('active');
             });
         });
 
-        // Particle system
-        function createParticles() {
+                function createParticles() {
             const container = document.querySelector('.donate-hero');
             for(let i = 0; i < 15; i++) {
                 const particle = document.createElement('div');
@@ -452,8 +448,7 @@
         }
         createParticles();
 
-        // Form validation
-        document.getElementById('donationForm').addEventListener('submit', (e) => {
+                document.getElementById('donationForm').addEventListener('submit', (e) => {
             e.preventDefault();
             alert('Thank you for your donation!');
         });
