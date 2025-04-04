@@ -153,6 +153,51 @@
             opacity: 0;
             animation: cardEnter 1s 0.3s forwards;
         }
+        .input-field {
+            width: 100%;
+            padding: 1rem;
+            margin: 0.5rem 0;
+            background: rgba(255,255,255,0.05);
+            border: 2px solid rgba(229, 190, 236, 0.3);
+            border-radius: 15px;
+            color: var(--text);
+            font-family: 'Poppins', sans-serif;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .input-field::placeholder {
+            color: rgba(229, 190, 236, 0.5);
+        }
+
+        .input-field:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 15px rgba(229, 190, 236, 0.2);
+            outline: none;
+            background: rgba(255,255,255,0.08);
+        }
+
+        .form-row {
+            display: flex;
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .form-row .input-field {
+            flex: 1;
+            margin: 0;
+        }
+
+        /* Adjusted width ratios */
+        .form-row .input-field.expiry {
+            flex: 1.5;
+            min-width: 120px;
+        }
+
+        .form-row .input-field.cvc {
+            flex: 1;
+            min-width: 90px;
+        }
 
         .donate-options {
             display: grid;
